@@ -19,7 +19,7 @@ const insertTransfer = (transferInfo: transfers) => {
   `);
 
   stmt.run(
-    crypto.randomUUID(), 
+    crypto.randomUUID(),
     transferInfo.file_name,
     transferInfo.file_size,
     transferInfo.peer_id,
@@ -30,44 +30,37 @@ const insertTransfer = (transferInfo: transfers) => {
 };
 
 // Query Data
-const getTransferById = (id : string) => {
-    return db.prepare("SELECT * FROM transfers WHERE id=?").get(id)
-}
+const getTransferById = (id: string) => {
+  return db.prepare("SELECT * FROM transfers WHERE id=?").get(id);
+};
 
 const getAllTransfer = () => {
-    return db.prepare("SELECT * FROM transfer").all()
-}
+  return db.prepare("SELECT * FROM transfer").all();
+};
 
 // Update Transfer
-const updateTransfer = (
-    id : string , 
-    field : Partial<Omit<transfers  , "id">>
-) => {
-    const updates = Object.keys(field)
-        .map((key) => `${key} = ?`)
-        .join(", ");
-    
-    const values  = Object.values(field)
+const updateTransfer = (id: string, field: Partial<Omit<transfers, "id">>) => {
+  const updates = Object.keys(field)
+    .map((key) => `${key} = ?`)
+    .join(", ");
 
-    values.push(id)
+  const values = Object.values(field);
 
-    const stmt = db.prepare(`UPDATE FROM transfers SET ${updates} WHERE id = ?`)
-    stmt.run(...values)
-}
+  values.push(id);
 
+  const stmt = db.prepare(`UPDATE FROM transfers SET ${updates} WHERE id = ?`);
+  stmt.run(...values);
+};
 
 // Delete Transfer
-const deleteTransferByID = (id : string) => {
-    return db.prepare("DELETE FROM transfers WHERE id = ?").run(id)
-}
-
+const deleteTransferByID = (id: string) => {
+  return db.prepare("DELETE FROM transfers WHERE id = ?").run(id);
+};
 
 export default {
   insertTransfer,
   getTransferById,
   getAllTransfer,
   updateTransfer,
-  deleteTransferByID
+  deleteTransferByID,
 };
-
-

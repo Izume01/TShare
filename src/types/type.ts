@@ -6,3 +6,10 @@ export interface transfers {
   received_chunks: number;
   status: string;
 }
+
+export interface peers {
+  peer_id : string, 
+  ip : string,
+  port : number, 
+  last_seen : Date
+}
