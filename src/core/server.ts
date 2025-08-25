@@ -1,6 +1,9 @@
 import net from "node:net";
+import localIP from "../utils/getAddress.js";
 
-const server = net.createServer((c) => {
+const host = localIP
+export function  createServer(port : number) {
+  const server = net.createServer((c) => {
   console.log("\x1b[33mClient:\x1b[0m  Connected");
 
   c.setEncoding("utf-8");
@@ -29,6 +32,9 @@ server.on("error", (err) => {
   console.error("Server Error:", err);
 });
 
-server.listen(5000, () => {
+server.listen(port , host, () => {
   console.log("Server listening on port 5000");
+  console.log("Server running at Host : " , host);
+  
 });
+}

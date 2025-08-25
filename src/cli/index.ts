@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 import { Command } from "commander";
 const program = new Command();
+import { createServer } from "../core/server.js";
+import { createClient } from "../core/client.js";
 
 program
   .name("TShare")
@@ -35,14 +37,21 @@ program
     console.log(options);
   });
 
+program
+  .command('recieve')
+  .description('Recieve a File')
+  .option("--host <ip>" , "Enter the IP")
+  .option("--port <number>" , "Enter the port")
+  .action((options) => {
+    createClient(options.host , options.port)
+  })
 
 program
   .command('start')
   .description('Start your peer server')
   .option('--port <number>', 'Port to listen on', '5000')
-  .option('--name <peerName>', 'Peer name')
   .action((options) => {
-    console.log('Starting server on port', options.port, 'with name', options.name);
+    createServer(options.port)
   });
 
 program.parse(process.argv);
